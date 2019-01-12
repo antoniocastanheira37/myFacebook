@@ -1,5 +1,16 @@
-extends layout
-
-block content
-  h1= title
-  p Welcome to #{title}
+header.w3-container.w3-blue
+  h2 myFacebook
+  form.w3-container(action="/login" method="POST")
+        input.w3-input(name="email" type="text" placeholder="Email")
+        input.w3-input(name="password" type="password" placeholder="Password")
+        input.w3-btn(type="submit" value="login")
+body.w3-container.w3-blue
+  h1 Welcome to Facebook
+  h3 Create Account
+  form.w3-container(action="/createAccount" method="POST")
+        input.w3-input(name="firstName" type="text" placeholder="First Name")
+        input.w3-input(name="lastName" type="text" placeholder="Last Name")
+        input.w3-input(name="email" type="text" placeholder="Email")
+        input.w3-input(name="password" type="password" placeholder="Password")
+        input.w3-input(name="birthDate" type="date")
+        input.w3-btn(type="submit" value="Create")
