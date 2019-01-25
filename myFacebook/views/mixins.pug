@@ -1,0 +1,29 @@
+//mixins da navbar
+mixin nav(name, style)
+    - var style = (typeof style === 'undefined') ? "dark" : style
+    nav( role="navigation", class=["navbar", "navbar-expand", "navbar-" + style, "bg-dark"] )
+        .navbar-header
+            a.navbar-brand(href='/')= name
+ 
+        .collapse.navbar-collapse
+            block
+ 
+mixin nav_list
+    ul.navbar-nav.mr-auto
+        block
+
+mixin nav_item(href, active)
+    li(class=["nav-item", active]): a(class="nav-link" href=href )
+        block
+ 
+mixin nav_divider
+    li.divider
+ 
+mixin nav_header
+    li.dropdown-header
+        block
+
+mixin nav_search
+    form.form-inline
+        input.form-control.mr-sm-2(type="search", placeholder="Pesquisar utilizador")
+        button.btn.btn-outline-success.my-2.my-sm-0(type="submit") Pesquisar

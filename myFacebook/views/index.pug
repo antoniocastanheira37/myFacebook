@@ -1,16 +1,22 @@
-header.w3-container.w3-blue
+extends layout
+
+block navbar
+  +nav_list()
+    +nav_item("/signin") SignIn
+    +nav_item("/login", "active") LogIn
+  +nav_search()
+
+block content
+  
   h2 myFacebook
   form.w3-container(action="/login" method="POST")
-        input.w3-input(name="email" type="text" placeholder="Email")
+        input.w3-input(name="username" type="text" placeholder="Username")
         input.w3-input(name="password" type="password" placeholder="Password")
         input.w3-btn(type="submit" value="login")
-body.w3-container.w3-blue
   h1 Welcome to Facebook
   h3 Create Account
-  form.w3-container(action="/createAccount" method="POST")
-        input.w3-input(name="firstName" type="text" placeholder="First Name")
-        input.w3-input(name="lastName" type="text" placeholder="Last Name")
-        input.w3-input(name="email" type="text" placeholder="Email")
+  form.w3-container(action="/signin" method="POST")
+        input.w3-input(name="name" type="text" placeholder="First and Last Name")
+        input.w3-input(name="username" type="text" placeholder="Username")
         input.w3-input(name="password" type="password" placeholder="Password")
-        input.w3-input(name="birthDate" type="date")
         input.w3-btn(type="submit" value="Create")
