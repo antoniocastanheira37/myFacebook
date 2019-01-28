@@ -1,22 +1,36 @@
 extends layout
 
 block navbar
-  +nav_list()
-    +nav_item("/signin") SignIn
-    +nav_item("/login", "active") LogIn
-  +nav_search()
+      +nav_list()
+        +nav_item("/signin") SignIn
+        +nav_item("/login", "active") LogIn
+      +nav_search()
 
 block content
-  
-  h2 myFacebook
-  form.w3-container(action="/login" method="POST")
-        input.w3-input(name="username" type="text" placeholder="Username")
-        input.w3-input(name="password" type="password" placeholder="Password")
-        input.w3-btn(type="submit" value="login")
-  h1 Welcome to Facebook
-  h3 Create Account
-  form.w3-container(action="/signin" method="POST")
-        input.w3-input(name="name" type="text" placeholder="First and Last Name")
-        input.w3-input(name="username" type="text" placeholder="Username")
-        input.w3-input(name="password" type="password" placeholder="Password")
-        input.w3-btn(type="submit" value="Create")
+    table.w3-table
+      tr
+        th
+          h1.w3-color-light-blue.w3-text-indigo Welcome to myFacebook
+          h3.w3-container.w3-text-indigo Login
+          form.w3-container(action="/login" method="POST")
+                input.w3-input(name="username" type="text" placeholder="Username")
+                input.w3-input(name="password" type="password" placeholder="Password")
+                input.w3-btn.w3-light-gray.w3-text-indigo(type="submit" value="login")
+                a.btn.btn-primary(href='/facebook') Login with Facebook
+                a.btn.btn-danger(href='/google') Login with Google
+          h3.w3-container.w3-text-indigo Create Account
+          form.w3-container(action="/signin" method="POST")
+                input.w3-input(name="name" type="text" placeholder="First and Last Name")
+                input.w3-input(name="username" type="text" placeholder="Username")
+                input.w3-input(name="password" type="password" placeholder="Password")
+                input.w3-btn.w3-light-gray.w3-text-indigo(type="submit" value="Create")
+        th
+          h2.w3-text-indigo Whatis myFacebook?
+          .w3-container.w3-text-gray
+            p myFacebook is a final project developed for the course unit Desenvolvimento de Aplicações Web.
+            p Inspired on a popular social network
+            p Developed by:
+              .w3-text-black António Castanheira PG38408 
+              | and 
+              .w3-text-black Henrique Ribeiro PG38415
+            img(src="../images/network.jpg")

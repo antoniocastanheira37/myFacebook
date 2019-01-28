@@ -7,15 +7,17 @@ block navbar
   +nav_search()
 
 block content
-  
-    h2 myFacebook
-    div.form-group
-        a.btn.btn-primary(href='/facebook') Facebook
-    div.form-group
-        a.btn.btn-danger(href='/google') Google
+    h1.w3-color-light-blue.w3-text-indigo Welcome to myFacebook
+    h3.w3-container.w3-text-indigo Login
     form.w3-container(action="/login" method="POST")
         input.w3-input(name="username" type="text" placeholder="Username")
         input.w3-input(name="password" type="password" placeholder="Password")
-        input.w3-btn(type="submit" value="login")
+        input.w3-btn.w3-light-gray.w3-text-indigo(type="submit" value="login")
+    br
+    .w3-container
+        a.btn.btn-primary(href='/facebook') Login with Facebook
+    br
+    .w3-container
+        a.btn.btn-danger(href='/google') Login with Google
     if message
         h1=message

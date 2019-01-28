@@ -1,7 +1,7 @@
 //mixins da navbar
 mixin nav(name, style)
     - var style = (typeof style === 'undefined') ? "dark" : style
-    nav( role="navigation", class=["navbar", "navbar-expand", "navbar-" + style, "bg-dark"] )
+    nav( role="navigation", class=["navbar", "navbar-expand", "navbar-" + style, "bg-primary"] )
         .navbar-header
             a.navbar-brand(href='/')= name
  
