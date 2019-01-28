@@ -136,7 +136,7 @@ passport.use('signup', new LocalStrategy({
         if (err){
           throw err;
         }
-        return done(null, newUser, req.flash("message", "Utilizador criado com sucesso"));
+        return done(null, newUser);
       });
     }
   });

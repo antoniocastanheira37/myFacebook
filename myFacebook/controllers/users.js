@@ -8,9 +8,17 @@ module.exports.obterUser = (username) => {
 }
 
 module.exports.publicacoesPublicas = (username) => {
-    return User.findOne({'username': username, 'publicacoes.publica': true}, 'username publicacoes').sort('-publicacoes.createdAt').exec()   
+    return User.findOne({'username': username, 'publicacoes.publica': true}, 'photo username firstname lastname publicacoes').sort('-publicacoes.createdAt').exec()   
 }
 
 module.exports.todasPublicacoes = (username) => {
-    return User.findOne({'username': username}, 'username publicacoes').sort('-publicacoes.createdAt').exec()   
+    return User.findOne({'username': username}, 'photo firstname lastname publicacoes').sort('-publicacoes.createdAt').exec()   
+}
+
+module.exports.userExiste = (username) => {
+    return User.count({'username': username}, (err, count)=>{
+        if (count>0)
+            return true
+        return false
+    })
 }

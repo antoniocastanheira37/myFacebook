@@ -1,0 +1,11 @@
+extends layout
+
+block navbar
+  +nav_list()
+    +nav_item("/signin") SignIn
+    +nav_item("/login", "active") LogIn
+  +nav_search()
+
+block content
+  
+  h2=pubs
