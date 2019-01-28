@@ -1,4 +1,5 @@
-var User = require('../models/models');
+var mongoose = require('mongoose');
+var User = mongoose.model('User');
 
 module.exports.obterUser = (username) => {
     return User
@@ -12,13 +13,4 @@ module.exports.publicacoesPublicas = (username) => {
 
 module.exports.todasPublicacoes = (username) => {
     return User.findOne({'username': username}, 'username publicacoes').sort('-publicacoes.createdAt').exec()   
-}
-
-module.exports.registarUser = (user) => {
-    
-  var finalUser = User.create(user);
-
-  finalUser.setPassword(user.password);
-
-  return finalUser.save().toAuthJSON();
 }

@@ -1,0 +1,18 @@
+extends layout
+
+block navbar
+  +nav_list()
+    +nav_item("/signin", "active") SignIn
+    +nav_item("/login") LogIn
+  +nav_search()
+
+block content
+
+  h1 Welcome to Facebook
+  h3 Create Account
+  form.w3-container(action="/signin" method="POST")
+    input.w3-input(name="firstname" type="text" placeholder="First Name")
+    input.w3-input(name="lastname" type="text" placeholder="Last Name")
+    input.w3-input(name="username" type="text" placeholder="Username")
+    input.w3-input(name="password" type="password" placeholder="Password")
+    input.w3-btn(type="submit" value="Create")

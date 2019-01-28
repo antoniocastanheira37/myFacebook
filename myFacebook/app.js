@@ -4,49 +4,143 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var passport = require('passport');
-var session = require('express-session')
-var FileStore = require('session-file-store')(session)
-var LocalStrategy = require('passport-local').Strategy;
-var uuid = require('uuid/v4')
-var app = express();
-
-var User = mongoose.model('User');
 
 mongoose.connect('mongodb://127.0.0.1:27017/myFacebook', {useNewUrlParser:true})
   .then(()=> console.log('Mongo ready: ' + mongoose.connection.readyState))
   .catch(()=> console.log('Erro de conexão.'))
+require('./models/models');
 
-passport.use(new LocalStrategy({
-  usernameField: 'user[username]',
-  passwordField: 'user[password]',
-}, (username, password, done) => {
-  User.findOne({ username })
-    .then((user) => {
-      if(!user || !user.validatePassword(password)) {
-        return done(null, false, { errors: { 'username or password': 'is invalid' } });
-      }
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+var passport = require('passport');
+var session = require('express-session')
+var flash = require('connect-flash');
+var bCrypt = require('bcrypt-nodejs')
+var LocalStrategy = require('passport-local').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
+var app = express();
 
-      return done(null, user);
-    }).catch(done);
-}));
+var User = mongoose.model('User');
 
-// Middleware da Sessão
-app.use(session({
-  genid: req => {
-    console.log('Dentro do middleware da sessão: ' + req.sessionID)
-    return uuid()
-  },
-  store: new FileStore(),
-  secret: 'dweb 2018',
-  resave: false,
-  saveUninitialized: true
-}))
 
+app.use(session({secret: "dweb 2018"}))
 app.use(passport.initialize())
 app.use(passport.session())
+app.use(flash());
+
+passport.serializeUser(function(user, done) {
+  done(null, user._id);
+});
+ 
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
+
+passport.use('fb', new FacebookStrategy({
+  clientID: "377899359668769",
+  clientSecret: "46a707d9f05743a8a3b3a79c66add47d",
+  callbackURL: "http://localhost:3000/facebook/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    User.findOne({'username':profile.id},function(err, user) {
+      if (err){
+        console.log('Erro no Registo: '+err);
+        return done(err);
+      }
+      if (user) {
+        return done(null, user);
+      } else {
+        var newUser = new User();
+        newUser.username = profile.id;
+        newUser.firstname = profile.displayName.split(" ")[0];
+        newUser.lastname = profile.displayName.split(" ")[1];
+        newUser.save(function(err) {
+          if (err){
+            throw err;
+          }
+          return done(null, newUser);
+        });
+      }
+    });
+  }
+));
+
+passport.use('google', new GoogleStrategy({
+    clientID: "1096954492511-imnrhk88fiettlcn0ab1u0aetk4393d9.apps.googleusercontent.com",
+    clientSecret: "Tn4bJemD6Wa_SV_uUpdsEz2o",
+    callbackURL: "http://localhost:3000/google/callback"
+  },
+  function(token, tokenSecret, profile, done) {
+    User.findOne({'username':profile.id},function(err, user) {
+      if (err){
+        console.log('Erro no Registo: '+err);
+        return done(err);
+      }
+      if (user) {
+        return done(null, user);
+      } else {
+        var newUser = new User();
+        newUser.username = profile.id;
+        newUser.firstname = profile.displayName.split(" ")[0];
+        newUser.lastname = profile.displayName.split(" ")[1];
+        newUser.save(function(err) {
+          if (err){
+            throw err;
+          }
+          return done(null, newUser);
+        });
+      }
+    });
+  }
+));
+
+passport.use('login', new LocalStrategy({
+  passReqToCallback : true
+}, function(req, username, password, done) {
+  
+  User.findOne({ 'username' :  username },
+    function(err, user) {
+      if (err)
+        return done(err);
+      if (!user){
+        return done(null, false, req.flash('message', 'Username ou password incorreta!'));
+      }
+      if (!user.isValidPassword(password)){
+        return done(null, false, req.flash('message', 'Username ou password incorreta!'));
+      }
+      return done(null, user);
+    }
+  );
+}));
+
+passport.use('signup', new LocalStrategy({
+  passReqToCallback : true
+}, function(req, username, password, done) {
+  User.findOne({'username':username},function(err, user) {
+    if (err){
+      console.log('Erro no Registo: '+err);
+      return done(err);
+    }
+    if (user) {
+      return done(null, false, req.flash("message", 'O utilizador já existe'));
+    } else {
+      var newUser = new User();
+      newUser.username = username;
+      newUser.password = bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
+      newUser.firstname = req.body.firstname;
+      newUser.lastname = req.body.lastname;
+      newUser.save(function(err) {
+        if (err){
+          throw err;
+        }
+        return done(null, newUser, req.flash("message", "Utilizador criado com sucesso"));
+      });
+    }
+  });
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

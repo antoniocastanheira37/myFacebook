@@ -1,0 +1,21 @@
+extends layout
+
+block navbar
+  +nav_list()
+    +nav_item("/signin") SignIn
+    +nav_item("/login", "active") LogIn
+  +nav_search()
+
+block content
+  
+    h2 myFacebook
+    div.form-group
+        a.btn.btn-primary(href='/facebook') Facebook
+    div.form-group
+        a.btn.btn-danger(href='/google') Google
+    form.w3-container(action="/login" method="POST")
+        input.w3-input(name="username" type="text" placeholder="Username")
+        input.w3-input(name="password" type="password" placeholder="Password")
+        input.w3-btn(type="submit" value="login")
+    if message
+        h1=message
