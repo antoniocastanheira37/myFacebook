@@ -97,7 +97,7 @@ module.exports.publicacoesTipoTag = (tipo, tags, user) => {
 }
 
 module.exports.atualizar = (pub) => {
-    return Base.findOneAndUpdate({_id: pub._id}, pub)
+    return Base.findOneAndUpdate({_id: pub._id}, {$set: pub}).exec()
 }
 
 module.exports.obterPublicacao = (id)=>{

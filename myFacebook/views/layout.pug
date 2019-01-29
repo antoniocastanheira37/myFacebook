@@ -9,9 +9,11 @@ html
     link(rel='stylesheet', href="/css/bootstrap-social.css", type="text/css")
 
   body
+    
     +nav("MyFacebook")
       +nav_list()
-        +nav_item("/logout")
+        if (username)
+          +nav_item("/logout") Logout
       +nav_search()
     block content
 

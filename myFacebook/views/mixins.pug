@@ -24,13 +24,13 @@ mixin nav_header
         block
 
 mixin nav_search
-    form.form-inline
-        input.form-control.mr-sm-2(type="search", placeholder="Pesquisar utilizador")
+    form.form-inline(action="/user", method="POST")
+        input.form-control.mr-sm-2(name="user", type="search", placeholder="Pesquisar utilizador")
         button.btn.btn-outline-success.my-2.my-sm-0(type="submit") Pesquisar
 
 mixin display_post(pub)
     .container
-        .row.justify-content-md-center
+        .row.justify-content-md-center(style="margin-top:2%;")
             for tag in pub.tags
                 .col-md-auto
                     .alert.alert-primary.text-center.hoverable ##{tag}
@@ -44,7 +44,7 @@ mixin display_post(pub)
                         .col-md-10
                             h3.card-title.mt-3.text-center=name
                             p.mt-3.text-center=username
-                            if !pub.privada
+                            if pub.publica
                                 p Pública
                 hr
                 .row.justify-content-md-center
@@ -52,7 +52,7 @@ mixin display_post(pub)
                     
 mixin display_evento(pub)
     .container(style="margin-top: 1%;")
-        .row.justify-content-md-center
+        .row.justify-content-md-center(style="margin-top:2%;")
             for tag in pub.tags
                 .col-md-auto
                     .alert.alert-primary.text-center.hoverable ##{tag}
@@ -66,7 +66,7 @@ mixin display_evento(pub)
                         .col-md-10
                             h3.card-title.mt-3.text-center=name
                             p.mt-3.text-center=username
-                            if !pub.privada
+                            if pub.publica
                                 p Pública
                 hr
                 .row.justify-content-md-center
@@ -92,7 +92,7 @@ mixin display_registo(pub)
                         .col-md-10
                             h3.card-title.mt-3.text-center=name
                             p.mt-3.text-center=username
-                            if !pub.privada
+                            if pub.publica
                                 p Pública
                 hr
                 .row.justify-content-md-center
@@ -118,7 +118,7 @@ mixin display_foto(pub)
                         .col-md-10
                             h3.card-title.mt-3.text-center=name
                             p.mt-3.text-center=username
-                            if !pub.privada
+                            if pub.publica
                                 p Pública
                 hr
                 .row.justify-content-md-center
@@ -192,7 +192,7 @@ mixin load_form_foto(pub)
 mixin load_form_registo(pub)
     .card.bg-light
         article.card-body.mx-auto(style='max-width: 400px;')
-            h4.card-title.mb-4.mt-1 Edit Post
+            h4.card-title.mb-4.mt-1 Edit Record
             hr
             form(action="/edit/"+pub._id+"/registo" method="POST" enctype="multipart/form-data")
                 .form-group

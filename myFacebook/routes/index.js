@@ -5,12 +5,6 @@ var Users = require('../controllers/users');
 var passport = require('passport');
 var multer = require('multer');
 var uuid = require('uuid/v1');
-var User = mongoose.model('User');
-var Photo = mongoose.model('Foto');
-var Registo = mongoose.model('Registo');
-var Evento = mongoose.model('Evento');
-var Publicacao = mongoose.model('Publicacao');
-var Classificador = mongoose.model('Tag');
 
 var tipospub = ['post', 'evento', 'registo', 'foto'];
 
@@ -58,7 +52,7 @@ router.get('/home', function(req, res, next) {
 router.get('/edit/:id', function(req, res, next) {
   if (req.user){
     Users.obterPublicacao(req.params.id).then((doc)=>{
-      res.render("edit", {title: 'Edit Post', pub: doc})
+      res.render("edit", {title: 'Edit Post', pub: doc, username: req.user.username})
     })
   }
 })
@@ -96,6 +90,10 @@ router.get('/publicar/:tipo', function(req, res, next){
         res.redirect('/home')
     }
   }
+})
+
+router.post("/user", function(req, res, next){
+  res.redirect("/user/"+req.body.user)
 })
 
 router.post('/home/foto', upload.single('photo'), function(req, res, next) {
@@ -165,9 +163,9 @@ router.post('/home/registo', upload.none(), function(req, res, next) {
 router.get('/user/:username', function(req, res, next) {
   var pubs = Users.publicacoesPublicas(req.params.username)
   pubs.then((doc)=>{
-    if (doc){
-      res.render('user', {title: 'Homepage', tipospubs: tipospub, pubs: doc});
-    }else {
+    if (doc.length){
+      res.render('userpage', {title: 'Homepage', tipospubs: tipospub, pubs: doc});
+    } else {
       res.render('userpage', {title: req.params.username, message: "O utilizador pesquisado não existe!"})
     }
   })
