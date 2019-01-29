@@ -27,3 +27,187 @@ mixin nav_search
     form.form-inline
         input.form-control.mr-sm-2(type="search", placeholder="Pesquisar utilizador")
         button.btn.btn-outline-success.my-2.my-sm-0(type="submit") Pesquisar
+
+mixin display_post(pub)
+    .container
+        .row.justify-content-md-center
+            for tag in pub.tags
+                .col-md-auto
+                    .alert.alert-primary.text-center.hoverable ##{tag}
+    .card.bg-light
+        article.card-body
+            .container
+                if username
+                    .row.justify-content-md-center
+                        .col-md-2.align-self-center
+                            img.rounded-circle.img-fluid(src=photo)
+                        .col-md-10
+                            h3.card-title.mt-3.text-center=name
+                            p.mt-3.text-center=username
+                            if !pub.privada
+                                p Pública
+                hr
+                .row.justify-content-md-center
+                    p.text-center=pub.texto
+                    
+mixin display_evento(pub)
+    .container(style="margin-top: 1%;")
+        .row.justify-content-md-center
+            for tag in pub.tags
+                .col-md-auto
+                    .alert.alert-primary.text-center.hoverable ##{tag}
+    .card.bg-light(style="margin: 2%;")
+        article.card-body
+            .container
+                if username
+                    .row.justify-content-md-center
+                        .col-md-2.align-self-center
+                            img.rounded-circle.img-fluid(src=photo)
+                        .col-md-10
+                            h3.card-title.mt-3.text-center=name
+                            p.mt-3.text-center=username
+                            if !pub.privada
+                                p Pública
+                hr
+                .row.justify-content-md-center
+                    p.text-center No dia #{pub.data}, em #{pub.local}, das #{pub.hinicio} às #{pub.hfim}
+                hr
+                .row.justify-content-md-center
+                    h5.text-center=pub.titulo
+                    p.text-center=pub.desc
+
+mixin display_registo(pub)
+    .container(style="margin-top: 1%;")
+        .row.justify-content-md-center
+            for tag in pub.tags
+                .col-md-auto
+                    .alert.alert-primary.text-center.hoverable ##{tag}
+    .card.bg-light(style="margin: 2%;")
+        article.card-body
+            .container
+                if username
+                    .row.justify-content-md-center
+                        .col-md-2.align-self-center
+                            img.rounded-circle.img-fluid(src=photo)
+                        .col-md-10
+                            h3.card-title.mt-3.text-center=name
+                            p.mt-3.text-center=username
+                            if !pub.privada
+                                p Pública
+                hr
+                .row.justify-content-md-center
+                    p.text-center No dia #{pub.data}
+                hr
+                .row.justify-content-md-center
+                    h5.text-center=pub.titulo
+                    p.text-center=pub.desc
+
+mixin display_foto(pub)
+    .container(style="margin-top: 1%;")
+        .row.justify-content-md-center
+            for tag in pub.tags
+                .col-md-auto
+                    .alert.alert-primary.text-center.hoverable ##{tag}
+    .card.bg-light(style="margin: 2%;")
+        article.card-body
+            .container
+                if username
+                    .row.justify-content-md-center
+                        .col-md-2.align-self-center
+                            img.rounded-circle.img-fluid(src=photo)
+                        .col-md-10
+                            h3.card-title.mt-3.text-center=name
+                            p.mt-3.text-center=username
+                            if !pub.privada
+                                p Pública
+                hr
+                .row.justify-content-md-center
+                    img.img-fluid(src="/photos/"+pub.fotoPath)
+                    p.text-center=pub.desc
+
+mixin load_form_post(pub)
+    .card.bg-light
+        article.card-body.mx-auto(style='max-width: 400px;')
+            h4.card-title.mb-4.mt-1 Edit Post
+            hr
+            form(action="/edit/"+pub._id+"/post" method="POST" enctype="multipart/form-data")
+                .form-group
+                    input.form-control(name="texto" value=pub.texto type="text" required=true)
+                .form-group
+                    input.form-control(name="publica" value=pub.publica type="checkbox")
+                .input_fields_wrap.form-group
+                    button.add_field_button Add More Fields
+                    .form-group
+                        for tag in pub.tags
+                            input.form-control(type='text', value=tag name='tags[]')
+                .form-group
+                    input.btn.btn-primary.btn-block(type="submit" value="Edit")
+
+mixin load_form_event(pub)
+    .card.bg-light
+        article.card-body.mx-auto(style='max-width: 400px;')
+            h4.card-title.mb-4.mt-1 Edit Event
+            hr
+            form(action="/edit/"+pub._id+"/evento" method="POST" enctype="multipart/form-data")
+                .form-group
+                    input.form-control(name="data" value=pub.data type="date" required=true)
+                .form-group
+                    input.form-control(name="local" value=pub.local type="text" required=true)
+                .form-group
+                    input.form-control(name="hinicio" value=pub.hinicio type="time" required=true)
+                .form-group
+                    input.form-control(name="hfim" value=pub.hfim type="time" required=true)
+                .form-group
+                    input.form-control(name="titulo" value=pub.titulo type="text" required=true)
+                .form-group
+                    input.form-control(name="desc" value=pub.desc type="text" required=true)
+                .form-group
+                    input.form-control(name="publica" value=pub.publica type="checkbox")
+                .input_fields_wrap.form-group
+                    button.add_field_button Add More Fields
+                    .form-group
+                        for tag in pub.tags
+                            input.form-control(type='text', value=tag name='tags[]')
+                .form-group
+                    input.btn.btn-primary.btn-block(type="submit" value="Edit")
+
+mixin load_form_foto(pub)
+    .card.bg-light
+        article.card-body.mx-auto(style='max-width: 400px;')
+            h4.card-title.mb-4.mt-1 Edit Photo
+            hr
+            form(action="/edit/"+pub._id+"/foto" method="POST" enctype="multipart/form-data")
+                .form-group
+                    input.form-control(name="desc" value=pub.desc type="text" required=true)
+                .form-group
+                    input.form-control(name="publica" value=pub.publica type="checkbox")
+                .input_fields_wrap.form-group
+                    button.add_field_button Add More Fields
+                    .form-group
+                        for tag in pub.tags
+                            input.form-control(type='text', value=tag name='tags[]')
+                .form-group
+                    input.btn.btn-primary.btn-block(type="submit" value="Edit")
+
+mixin load_form_registo(pub)
+    .card.bg-light
+        article.card-body.mx-auto(style='max-width: 400px;')
+            h4.card-title.mb-4.mt-1 Edit Post
+            hr
+            form(action="/edit/"+pub._id+"/registo" method="POST" enctype="multipart/form-data")
+                .form-group
+                    input.form-control(name="data" value=pub.data type="date" required=true)
+                .form-group
+                    input.form-control(name="titulo" value=pub.titulo type="text" required=true)
+                .form-group
+                    input.form-control(name="descricao" value=pub.descricao type="text" required=true)
+                .form-group
+                .form-group
+                    input.form-control(name="publica" value=pub.publica type="checkbox")
+                .input_fields_wrap.form-group
+                    button.add_field_button Add More Fields
+                    .form-group
+                        for tag in pub.tags
+                            input.form-control(type='text', value=tag name='tags[]')
+                .form-group
+                    input.btn.btn-primary.btn-block(type="submit" value="Edit")

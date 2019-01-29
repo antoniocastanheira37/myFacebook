@@ -1,0 +1,23 @@
+extends layout
+
+block content
+    .card.bg-light
+        article.card-body.mx-auto(style='max-width: 400px;')
+            h4.card-title.mb-4.mt-1 Publish photo
+            hr
+            form(action="/home/registo" method="POST" enctype="multipart/form-data")
+                .form-group
+                    input.form-control(name="data" type="date" placeholder="Dia")
+                .form-group
+                    input.form-control(name="titulo" type="text" placeholder="Título")
+                .form-group
+                    input.form-control(name="desc" type="text" placeholder="descricao")
+                .input_fields_wrap
+                    button.add_field_button Add More Fields
+                    div
+                        input.form-control(type='text', name='tags[]')
+                input.form-control(name="publica" type="checkbox")
+                input.btn.btn-primary.btn-block(type="submit" value="Create")
+
+block scripts
+    script(src="/js/script.js")

@@ -1,0 +1,30 @@
+extends layout
+
+block content
+    .card.bg-light
+        article.card-body.mx-auto(style='max-width: 400px;')
+            h4.card-title.mb-4.mt-1 Publish photo
+            hr
+            form(action="/home/evento" method="POST" enctype="multipart/form-data")
+                .form-group
+                    input.form-control(name="data" type="date" placeholder="Data")
+                .form-group
+                    input.form-control(name="local" type="text" placeholder="Local")
+                .form-group
+                    input.form-control(name="hinicio" type="time" placeholder="Hora Início")
+                .form-group    
+                    input.form-control(name="hfim" type="time" placeholder="Hora Fim")
+                .form-group
+                    input.form-control(name="titulo" type="text" placeholder="Título")
+                .form-group
+                    input.form-control(name="desc" type="text" placeholder="Descrição")
+                .input_fields_wrap
+                    button.add_field_button Add More Fields
+                    div
+                        input.form-control(type='text', name='tags[]')
+                .form-group
+                    input.form-control(name="publica" type="checkbox")
+                input.form-control(type="submit" value="Create")
+
+block scripts
+    script(src="/js/script.js")

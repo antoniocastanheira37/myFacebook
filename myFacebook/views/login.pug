@@ -1,21 +1,26 @@
 extends layout
 
-block navbar
-  +nav_list()
-    +nav_item("/signin") SignIn
-    +nav_item("/login", "active") LogIn
-  +nav_search()
-
 block content
   
-    h2 myFacebook
-    div.form-group
-        a.btn.btn-primary(href='/facebook') Facebook
-    div.form-group
-        a.btn.btn-danger(href='/google') Google
-    form.w3-container(action="/login" method="POST")
-        input.w3-input(name="username" type="text" placeholder="Username")
-        input.w3-input(name="password" type="password" placeholder="Password")
-        input.w3-btn(type="submit" value="login")
-    if message
-        h1=message
+    for msg in message
+            .alert.alert-danger.text-center=msg
+    article.card-body.mx-auto(style='max-width: 400px;')
+        a.float-right.btn.btn-outline-primary(href='/signin') Sign up
+        h4.card-title.mb-4.mt-1 Sign in
+        p
+            a.btn.btn-block.btn-google(href='/google')
+                i.fab.fa-google
+                |    Login via Google
+            a.btn.btn-block.btn-facebook(href='/facebook')
+                i.fab.fa-facebook-f
+                |    Login via facebook
+        hr
+        form(action="/login" method="POST")
+            .form-group
+                input.form-control(name='username', placeholder='Username', type='text')
+            // form-group//
+            .form-group
+                input.form-control(name="password", placeholder='******', type='password')
+            // form-group//
+            .form-group
+                button.btn.btn-primary.btn-block(type='submit')  Login  

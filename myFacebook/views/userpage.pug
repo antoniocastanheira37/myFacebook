@@ -1,0 +1,29 @@
+extends layout
+
+block content
+    if pubs
+        .container
+            .row
+                .col-md-2
+                    for tipo in tipospub
+                        input(type="checkbox", name="tipo0")
+                .col-md-8
+                    for pub in pubs
+                        if pub.tipo=="post"
+                            +display_post(pub)
+                        else if pub.tipo=="evento"
+                            +display_evento(pub)
+                        else if pub.tipo=="registo"
+                            +display_registo(pub)
+                        else
+                            +display_foto(pub)
+                .col-md-2
+                    .input_fields_wrap
+                        button.add_field_button Add More Fields
+                        div
+                            input(type='text', name='tags[]')
+    else
+        p=message
+
+block scripts
+    script(src="/js/script.js")

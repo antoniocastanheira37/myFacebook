@@ -1,0 +1,14 @@
+extends layout
+
+block content
+    if pub.tipo == "post"
+        +load_form_post(pub)
+    else if pub.tipo == "evento"
+        +load_form_event(pub)
+    else if pub.tipo == "registo"
+        +load_form_registo(pub)
+    else if pub.tipo == "foto"
+        +load_form_foto(pub)
+
+block scripts
+    script(src="/js/script.js")

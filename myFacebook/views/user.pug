@@ -1,0 +1,31 @@
+extends layout
+
+block content
+    .container
+        .row
+            .col-md-auto
+                a.btn.btn-primary.btn-block(href="/publicar/post") Fazer post
+            .col-md-auto
+                a.btn.btn-primary.btn-block(href="/publicar/evento") Criar evento
+            .col-md-auto
+                a.btn.btn-primary.btn-block(href="/publicar/registo") Fazer registo
+            .col-md-auto
+                a.btn.btn-primary.btn-block(href="/publicar/foto") Publicar foto   
+        .row
+            .col-md-2
+            .col-md-8
+                for pub in pubs
+                    if pub.tipo=="post"
+                        +display_post(pub)
+                    else if pub.tipo=="evento"
+                        +display_evento(pub)
+                    else if pub.tipo=="registo"
+                        +display_registo(pub)
+                    else
+                        +display_foto(pub)
+                    a(href="/edit/"+pub._id) editar
+            .col-md-2
+  
+
+block scripts
+    script(src="/js/script.js")

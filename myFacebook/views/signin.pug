@@ -1,18 +1,35 @@
 extends layout
 
-block navbar
-  +nav_list()
-    +nav_item("/signin", "active") SignIn
-    +nav_item("/login") LogIn
-  +nav_search()
-
 block content
-
-  h1 Welcome to Facebook
-  h3 Create Account
-  form.w3-container(action="/signin" method="POST")
-    input.w3-input(name="firstname" type="text" placeholder="First Name")
-    input.w3-input(name="lastname" type="text" placeholder="Last Name")
-    input.w3-input(name="username" type="text" placeholder="Username")
-    input.w3-input(name="password" type="password" placeholder="Password")
-    input.w3-btn(type="submit" value="Create")
+    .card.bg-light
+        for msg in message
+            .alert.alert-danger.text-center=msg
+        article.card-body.mx-auto(style='max-width: 400px;')
+            h4.card-title.mt-3.text-center Create Account
+            p.text-center Get started with your free account
+            p
+            a.btn.btn-block.btn-google(href='/google')
+                i.fab.fa-google
+                |    Login via Google
+            a.btn.btn-block.btn-facebook(href='/facebook')
+                i.fab.fa-facebook-f
+                |    Login via facebook
+            hr
+            form(action="/signin" method="POST" enctype="multipart/form-data")
+                .form-group.input-group
+                    input.form-control(name='username', placeholder='Username', type='text', required=true)
+                .form-group.input-group
+                    input.form-control(name='firstname', placeholder='First Name', type='text', required=true)
+                .form-group.input-group
+                    input.form-control(name='lastname', placeholder='Last Name', type='text', required=true)
+                .form-group.input-group
+                    input.form-control(name='password', placeholder='Create password', type='password', required=true)
+                .form-group.input-group
+                    input.form-control(name='repeat', placeholder='Repeat password', type='password', required=true)
+                .form-group.input-group
+                    input.form-control(name='photo', placeholder='Foto de perfil', type='file')
+                .form-group
+                    button.btn.btn-primary.btn-block(type='submit')  Create Account  
+                p.text-center
+                    | Have an account? 
+                    a(href='/login') Log In
